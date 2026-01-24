@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Student Registration</title>
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#eee;
+}
+
+.container{
+    background:white;
+    padding:40px;
+    width:400px;
+    border-radius:10px;
+    box-shadow:0px 0px 10px rgba(0,0,0,0.2);
+}
+
+h1{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+label{
+    display:block;
+    margin-top:15px;
+}
+
+input{
+    width:100%;
+    padding:10px;
+    margin-top:5px;
+    border-radius:5px;
+    border:2px solid #ccc;
+    font-size:16px;
+}
+
+input.error{
+    border-color:red;
+}
+
+small{
+    color:red;
+    font-size:14px;
+}
+
+button{
+    margin-top:20px;
+    width:100%;
+    padding:10px;
+    background:black;
+    color:white;
+    border:none;
+    font-size:18px;
+    border-radius:5px;
+    cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Student Registration</h1>
+
+    <form id="form">
+
+        <label>Full Name:</label>
+        <input type="text" id="name" placeholder="Enter name" required pattern="[A-Za-z ]+">
+        <small id="nameError"></small>
+
+        <label>Email:</label>
+        <input type="email" id="email">
+        <small id="emailError"></small>
+
+        <label>Age:</label>
+        <input type="number" id="age">
+        <small id="ageError"></small>
+
+        <button type="submit">Register</button>
+    </form>
+</div>
+
+<script>
+const form = document.getElementById("form");
+const nameInput = document.getElementById("name");
+const emailInput = document.getElementById("email");
+const ageInput = document.getElementById("age");
+
+const nameError = document.getElementById("nameError");
+const emailError = document.getElementById("emailError");
+const ageError = document.getElementById("ageError");
+//when form is submitted run this function
+form.addEventListener("submit", function(e){
+    e.preventDefault(); //stop the page from refreshing
+
+    let valid = true;
+
+    if(nameInput.value.length < 9 || nameInput.value.length > 50){
+        nameInput.classList.add("error"); //dom fundamental
+        nameError.innerText = "Must contain 9-50 letters"; //puts the message inside that <small> tag
+        valid = false;
+    }
+    else{
+        nameInput.classList.remove("error"); //
+        nameError.innerText = "";
+    }
+    if(!emailInput.value.includes("@") || !emailInput.value.includes(".")){
+        emailInput.classList.add("error");
+        emailError.innerText = "Valid email required";
+        valid = false;
+    }
+    else{
+        emailInput.classList.remove("error");
+        emailError.innerText = "";
+    }
+    if(ageInput.value < 16 || ageInput.value > 30){
+        ageInput.classList.add("error");
+        ageError.innerText = "Age 16–30 only";
+        valid = false;
+    }
+    else{
+        ageInput.classList.remove("error");
+        ageError.innerText = "";
+    }
+
+    if(valid){
+        alert("Registration Successful 🎉");
+        form.reset();
+    }
+});
+</script>
+
+</body>
+</html>
