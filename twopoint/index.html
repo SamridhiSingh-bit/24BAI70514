@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Draw Circles</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+        font-family: "Segoe UI", sans-serif;
+    }
+
+    body {
+        margin: 0;
+        height: 100vh;
+        background: #f2f4f8;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .card {
+        background: white;
+        width: 900px;
+        padding: 30px;
+        border-radius: 28px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+    }
+
+    .top-bar {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 20px;
+    }
+
+    .icon {
+        width: 44px;
+        height: 44px;
+        background: #2f77ff;
+        border-radius: 12px;
+    }
+
+    button {
+        background: #2f77ff;
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        font-size: 20px;
+        border-radius: 12px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background: #1e63e0;
+    }
+
+    .draw-area {
+        position: relative;
+        height: 420px;
+        border: 3px dashed #d7dbe2;
+        border-radius: 22px;
+        cursor: pointer;
+        margin-bottom: 25px;
+    }
+
+    .dot {
+        position: absolute;
+        width: 18px;
+        height: 18px;
+        background: #2f77ff;
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .count {
+        text-align: center;
+        font-size: 26px;
+        color: #333;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+    <div class="top-bar">
+        <div class="icon"></div>
+        <button id="undoBtn">Undo</button>
+    </div>
+
+    <div class="draw-area" id="drawArea"></div>
+
+    <div class="count">
+        Circles drawn: <span id="count">0</span>
+    </div>
+
+</div>
+
+<script>
+    const drawArea = document.getElementById("drawArea");
+    const undoBtn = document.getElementById("undoBtn");
+    const countText = document.getElementById("count");
+
+    let dots = [];
+
+    drawArea.addEventListener("click", (e) => {
+        const rect = drawArea.getBoundingClientRect();
+
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        const dot = document.createElement("div");
+        dot.className = "dot";
+        dot.style.left = x + "px";
+        dot.style.top = y + "px";
+
+        drawArea.appendChild(dot);
+        dots.push(dot);
+
+        updateCount();
+    });
+
+    undoBtn.addEventListener("click", () => {
+        if (dots.length > 0) {
+            const lastDot = dots.pop();
+            lastDot.remove();
+            updateCount();
+        }
+    });
+
+    function updateCount() {
+        countText.textContent = dots.length;
+    }
+</script>
+
+</body>
+</html>
