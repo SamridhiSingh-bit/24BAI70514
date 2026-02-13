@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Library Management System</title>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+        background: linear-gradient(to right, #e3e8ee, #eef2f6);
+        min-height: 100vh;
+        padding: 40px 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    h1 {
+        font-size: 48px;
+        margin-bottom: 30px;
+        text-align: center;
+        color: #1f2937;
+    }
+
+    .form-container {
+        width: 100%;
+        max-width: 800px;
+        background: #f5f7fa;
+        padding: 25px;
+        border-radius: 15px;
+        border: 1px solid #cfd8e3;
+        margin-bottom: 30px;
+    }
+
+    .form-container input {
+        padding: 12px;
+        border-radius: 10px;
+        border: 1px solid #cbd5e1;
+        font-size: 16px;
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    .row {
+        display: flex;
+        gap: 15px;
+    }
+
+    .row input {
+        flex: 1;
+    }
+
+    .add-btn {
+        background: linear-gradient(to right, #2563eb, #1d4ed8);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        padding: 12px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        min-width: 120px;
+    }
+
+    .add-btn:hover {
+        opacity: 0.9;
+    }
+
+    .book-list {
+        width: 100%;
+        max-width: 800px;
+    }
+
+    .book-card {
+        background: #f5f7fa;
+        padding: 25px;
+        border-radius: 15px;
+        border: 1px solid #cfd8e3;
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .book-info h2 {
+        font-size: 26px;
+        margin-bottom: 5px;
+        color: #111827;
+    }
+
+    .book-info p {
+        font-size: 18px;
+        color: #4b5563;
+    }
+
+    .remove-btn {
+        background: linear-gradient(to right, #ef4444, #dc2626);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        padding: 10px 18px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    .remove-btn:hover {
+        opacity: 0.9;
+    }
+
+    @media (max-width: 600px) {
+        .row {
+            flex-direction: column;
+        }
+    }
+</style>
+
+</head>
+<body>
+
+<h1>Library Management System</h1>
+
+<div class="form-container">
+    <input type="text" id="searchInput" placeholder="Search books...">
+
+    <div class="row">
+        <input type="text" id="titleInput" placeholder="Book Title">
+        <input type="text" id="authorInput" placeholder="Author">
+        <button class="add-btn" onclick="addBook()">Add Book</button>
+    </div>
+</div>
+
+<div class="book-list" id="bookList"></div>
+
+<script>
+    let books = [
+        { title: "The Great Gatsby", author: "F. Scott Fitzgerald" },
+        { title: "To Kill a Mockingbird", author: "Harper Lee" },
+        { title: "The Great Gatsby", author: "S. Scott Fitzgerald" }
+    ];
+
+    const bookList = document.getElementById("bookList");
+    const searchInput = document.getElementById("searchInput");
+
+    function renderBooks(filter = "") {
+        bookList.innerHTML = "";
+
+        books
+            .filter(book =>
+                book.title.toLowerCase().includes(filter.toLowerCase()) ||
+                book.author.toLowerCase().includes(filter.toLowerCase())
+            )
+            .forEach((book, index) => {
+                const card = document.createElement("div");
+                card.classList.add("book-card");
+
+                card.innerHTML = `
+                    <div class="book-info">
+                        <h2>${book.title}</h2>
+                        <p>by ${book.author}</p>
+                    </div>
+                    <button class="remove-btn" onclick="removeBook(${index})">
+                        Remove
+                    </button>
+                `;
+
+                bookList.appendChild(card);
+            });
+    }
+
+    function addBook() {
+        const title = document.getElementById("titleInput").value.trim();
+        const author = document.getElementById("authorInput").value.trim();
+
+        if (title && author) {
+            books.push({ title, author });
+            renderBooks();
+            document.getElementById("titleInput").value = "";
+            document.getElementById("authorInput").value = "";
+        }
+    }
+
+    function removeBook(index) {
+        books.splice(index, 1);
+        renderBooks(searchInput.value);
+    }
+
+    searchInput.addEventListener("input", () => {
+        renderBooks(searchInput.value);
+    });
+
+    // Initial render
+    renderBooks();
+</script>
+
+</body>
+</html>
