@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product Cards</title>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+        background: linear-gradient(to right, #dfe3e8, #e8edf2);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .container {
+        display: flex;
+        gap: 40px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .card {
+        background: #f2f4f7;
+        width: 300px;
+        padding: 25px;
+        border-radius: 20px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+    }
+
+    .image-placeholder {
+        height: 160px;
+        background: #d9dde3;
+        border-radius: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .inner-box {
+        height: 80px;
+        width: 80px;
+        background: #c5cbd3;
+        border-radius: 15px;
+    }
+
+    h2 {
+        font-size: 22px;
+        margin-bottom: 10px;
+        color: #111;
+    }
+
+    .price {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .status {
+        display: inline-block;
+        padding: 8px 18px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 15px;
+    }
+
+    .in-stock {
+        background-color: #d6f0e1;
+        color: #1c6b3c;
+    }
+
+    .out-stock {
+        background-color: #f5d6d6;
+        color: #8b1e1e;
+    }
+
+    .btn {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        border-radius: 10px;
+        border: none;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s ease;
+    }
+
+    .btn-enabled {
+        background-color: #3b82f6;
+        color: white;
+    }
+
+    .btn-enabled:hover {
+        background-color: #2563eb;
+    }
+
+    .btn-disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+    }
+
+    @media (max-width: 950px) {
+        .container {
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+</style>
+
+</head>
+<body>
+
+<div class="container" id="productContainer"></div>
+
+<script>
+    const products = [
+        {
+            name: "Wireless Headphones",
+            price: 129.99,
+            inStock: true
+        },
+        {
+            name: "Mechanical Keyboard",
+            price: 89.99,
+            inStock: false
+        },
+        {
+            name: "Smart Watch",
+            price: 199.99,
+            inStock: true
+        }
+    ];
+
+    const container = document.getElementById("productContainer");
+
+    products.forEach(product => {
+
+        const card = document.createElement("div");
+        card.classList.add("card");
+
+        card.innerHTML = `
+            <div class="image-placeholder">
+                <div class="inner-box"></div>
+            </div>
+            <h2>${product.name}</h2>
+            <div class="price">$${product.price.toFixed(2)}</div>
+            <span class="status ${product.inStock ? 'in-stock' : 'out-stock'}">
+                ${product.inStock ? 'In Stock' : 'Out of Stock'}
+            </span>
+            <button class="btn ${product.inStock ? 'btn-enabled' : 'btn-disabled'}"
+                ${!product.inStock ? 'disabled' : ''}>
+                ${product.inStock ? 'Add to Cart' : 'Unavailable'}
+            </button>
+        `;
+
+        container.appendChild(card);
+    });
+</script>
+
+</body>
+</html>
